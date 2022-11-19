@@ -10,5 +10,12 @@ public class Enemy: Area2D, DamageableByPlayer {
 
     public void Damage(int amount) {
         _health -= amount;
+        if (_health <= 0) {
+            Kill();    
+        }
+    }
+
+    private void Kill() {
+        QueueFree();
     }
 }

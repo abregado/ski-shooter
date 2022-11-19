@@ -35,4 +35,19 @@ public class SkiPlayer : RigidBody2D, VelocityHolder {
     public float GetVelocity() {
         return _velocity;
     }
+
+    public void DamageVelocity(float percentage) {
+        //does nothing for now
+    }
+    
+    public void OnAreaEntered(Area2D area)
+    {
+        if (area is Enemy enemy)
+        {
+            enemy.Damage(100);
+            DamageVelocity(0.1f);
+        }
+    }
+    
+    
 }
