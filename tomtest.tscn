@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://skiplayer.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Logic/MakePolyCollider.cs" type="Script" id=3]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2( 75.6848, 54.28 )
+scale = Vector2( 0.820652, 0.846667 )
+polygon = PoolVector2Array( -79, 54, 24.755, 178.016, 206.318, 283.134, 286.742, 312.661, 419.563, 255.968, 565.788, 96.5197, 749.788, 336.283, 748.57, 444.945, -147.06, 450.85, -145.841, 70.5354 )
+script = ExtResource( 3 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Polygon2D"]
+
+[node name="player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 33, 24 )
