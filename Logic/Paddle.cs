@@ -40,16 +40,7 @@ public class Paddle : Area2D, VelocityHolder
 			DamageVelocity(0.1f);
 		}
 	}
-
-	public void OnAreaEntered(Area2D area)
-	{
-		if (area is Ball ball)
-		{
-			// Assign new direction
-			ball.direction = new Vector2(_ballDir, ((float)new Random().NextDouble()) * 2 - 1).Normalized();
-		}
-	}
-
+	
 	public void DamageVelocity(float percentage) {
 		_velocity *= percentage;
 	}
