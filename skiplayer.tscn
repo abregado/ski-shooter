@@ -4,8 +4,11 @@
 
 [node name="Node2D" type="KinematicBody2D"]
 script = ExtResource( 1 )
+gravityStrength = 2.0
+slidingSpeedGainMultiplier = 0.05
+jetpackUpForce = 1.6
 jetpackMaxUpForce = 3.0
-jetpackDecay = 0.1
+jetpackDecay = 1.5
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_right = 22.0

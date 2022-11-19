@@ -23,6 +23,7 @@ public class SkiPlayer : KinematicBody2D, VelocityHolder
     [Export] float jetpackMaxUpForce = 10f;
     [Export] float jetpackDecay = 0.01f;
     [Export] float minimumHorizontalVelocity = 1.0f;
+    [Export] float uphillSpeedDecay = 0.001f;
 
 
 
@@ -60,7 +61,7 @@ public class SkiPlayer : KinematicBody2D, VelocityHolder
             float magnitude = angle <= 180f ? -(angle / 180f) : (angle-108f) / 180f;
             // Console.WriteLine(magnitude);
 
-            horizontalVelocity += Mathf.Sign(magnitude) * magnitude*magnitude * slidingSpeedGainMultiplier;
+            horizontalVelocity += magnitude * slidingSpeedGainMultiplier;
         }
 
         horizontalVelocity = Mathf.Max(horizontalVelocity, minimumHorizontalVelocity);
@@ -70,14 +71,19 @@ public class SkiPlayer : KinematicBody2D, VelocityHolder
 
         verticalVelocity += jetpackDecay;
 
-        Vector2 old = GlobalPosition;
-        MoveAndCollide(new Vector2(horizontalVelocity, 0));
+        float moved = 0f;
+        float iterations = 0f;
+        while (moved < horizontalVelocity)
+        {
+            Vector2 old = GlobalPosition;
+            MoveAndCollide(new Vector2(horizontalVelocity, 0));
+            moved += GlobalPosition.x - old.x;
+            iterations++;
+        }
+        if (iterations > 1)
+            horizontalVelocity -= uphillSpeedDecay;
 
         MoveAndCollide(new Vector2(horizontalVelocity, onTheGround() ? hugFloorStrength : verticalVelocity + gravityStrength));
-
-        float moved = GlobalPosition.x - old.x;
-        if (horizontalVelocity - moved > 0.1f)
-            horizontalVelocity = moved;
     }
 
     // public override void _IntegrateForces(Physics2DDirectBodyState bodyState)
@@ -112,7 +118,7 @@ public class SkiPlayer : KinematicBody2D, VelocityHolder
     public void DamageVelocity(float percentage) {
         //does nothing for now
     }
-    
+
     public void OnAreaEntered(Area2D area)
     {
         if (area is Enemy enemy)
@@ -121,6 +127,6 @@ public class SkiPlayer : KinematicBody2D, VelocityHolder
             DamageVelocity(0.1f);
         }
     }
-    
-    
+
+
 }
