@@ -1,8 +1,8 @@
 using Godot;
 using System;
 
-public class SkiPlayer : RigidBody2D
-{
+public class SkiPlayer : RigidBody2D, VelocityHolder {
+    private float _velocity;
     public override void _Ready()
     {
 
@@ -28,5 +28,11 @@ public class SkiPlayer : RigidBody2D
             Vector2 newVelocity = jetpackDirection * alpha + currentVelocity * (1.0f-alpha);
             bodyState.LinearVelocity = newVelocity;
         }
+
+        _velocity = bodyState.LinearVelocity.Length();
+    }
+
+    public float GetVelocity() {
+        return _velocity;
     }
 }
