@@ -1,24 +1,50 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://skiplayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Logic/CameraFollowPlayer.cs" type="Script" id=2]
 [ext_resource path="res://Logic/MakePolyCollider.cs" type="Script" id=3]
 [ext_resource path="res://Logic/UISpeedReadout.cs" type="Script" id=4]
+[ext_resource path="res://Logic/PlayerGun.cs" type="Script" id=5]
+[ext_resource path="res://ball.png" type="Texture" id=6]
+[ext_resource path="res://Logic/FollowMouse.cs" type="Script" id=7]
+[ext_resource path="res://Logic/FollowRayCastCollide.cs" type="Script" id=8]
+[ext_resource path="res://Logic/Enemy.cs" type="Script" id=9]
+[ext_resource path="res://Logic/UIEnemyHealth.cs" type="Script" id=10]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 29.2746
 
 [node name="Node2D" type="Node2D"]
+
+[node name="player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 30, 25 )
+collision_mask = 3
+
+[node name="Gun" type="RayCast2D" parent="player"]
+position = Vector2( 11, 14 )
+enabled = true
+cast_to = Vector2( 47, 83 )
+collide_with_areas = true
+script = ExtResource( 5 )
+
+[node name="Line2D" type="Line2D" parent="player/Gun"]
+
+[node name="Sprite" type="Sprite" parent="player/Gun"]
+position = Vector2( -68, -19 )
+texture = ExtResource( 6 )
+script = ExtResource( 8 )
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 position = Vector2( 75.6848, 54.28 )
 scale = Vector2( 0.820652, 0.846667 )
-polygon = PoolVector2Array( -79, 54, 24.755, 178.016, 206.318, 283.134, 286.742, 312.661, 419.563, 255.968, 565.788, 96.5197, 749.788, 336.283, 748.57, 444.945, -147.06, 450.85, -145.841, 70.5354 )
+color = Color( 0.172549, 0.392157, 0.0392157, 1 )
+polygon = PoolVector2Array( -79, 54, 24.755, 178.016, 206.318, 283.134, 286.742, 312.661, 419.563, 255.968, 565.788, 96.5197, 724.199, 254.787, 852.146, 362.268, 1097.07, 312.661, 1332.25, 89.433, 1493.1, 11.4803, 1708.78, 240.614, 1825.76, 309.118, 1897.66, 330.378, 2067.03, 214.63, 2235.19, 92.9763, 2444.78, 68.1732, 2718.95, 444.945, 1956.15, 443.764, 748.57, 444.945, -147.06, 450.85, -145.841, 70.5354 )
 script = ExtResource( 3 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Polygon2D"]
 
-[node name="player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 33, 24 )
-
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 43, 32 )
 current = true
 script = ExtResource( 2 )
 _playerNodePath = NodePath("../player")
@@ -34,3 +60,29 @@ align = 2
 valign = 1
 script = ExtResource( 4 )
 _playerNodePath = NodePath("../../player")
+
+[node name="StaticEnemy" type="Area2D" parent="."]
+position = Vector2( 1169, 122 )
+script = ExtResource( 9 )
+
+[node name="Polygon2D" type="Polygon2D" parent="StaticEnemy"]
+color = Color( 0.811765, 0.227451, 0.227451, 1 )
+polygon = PoolVector2Array( -15, -11, -1, -7, 12, -14, 22, 4, 0, 15, -19, 9 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticEnemy"]
+shape = SubResource( 1 )
+
+[node name="Label" type="Label" parent="StaticEnemy"]
+margin_left = -22.0
+margin_top = -31.0
+margin_right = 18.0
+margin_bottom = -17.0
+text = "100"
+align = 1
+valign = 1
+script = ExtResource( 10 )
+_playerNodePath = NodePath("..")
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 6 )
+script = ExtResource( 7 )
