@@ -63,7 +63,7 @@ right_move_up={
 
 [mono]
 
-project/assembly_name="Pong with C#"
+project/assembly_name="ski-shooter"
 debugger_agent/wait_for_debugger=true
 
 [rendering]
