@@ -1,23 +1,22 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://Logic/SkiPlayer.cs" type="Script" id=1]
 
-[sub_resource type="PhysicsMaterial" id=2]
-friction = 0.0
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 11, 20 )
-
-[node name="Node2D" type="RigidBody2D"]
-mode = 2
-physics_material_override = SubResource( 2 )
+[node name="Node2D" type="KinematicBody2D"]
 script = ExtResource( 1 )
+jetpackMaxUpForce = 3.0
+jetpackDecay = 0.1
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_right = 22.0
 margin_bottom = 40.0
 color = Color( 1, 0, 0, 1 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 11, 20 )
-shape = SubResource( 1 )
+[node name="FeetRaycast" type="RayCast2D" parent="."]
+position = Vector2( 11, 23 )
+enabled = true
+cast_to = Vector2( 0, 20 )
+collide_with_areas = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 0, 0, 11, 40, 22, 0 )
