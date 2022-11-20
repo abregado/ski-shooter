@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Prefab/Explosion.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Prefab/Hit.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Logic/Enemy.cs" type="Script" id=3]
+[ext_resource path="res://Logic/UIEnemyHealth.cs" type="Script" id=4]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 29.2746
+
+[node name="StaticEnemy" type="Area2D"]
+position = Vector2( 1169, 122 )
+script = ExtResource( 3 )
+_explosionScene = ExtResource( 1 )
+_hitScene = ExtResource( 2 )
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color( 0.658824, 0.0862745, 0.376471, 1 )
+polygon = PoolVector2Array( -15, -11, -1, -7, 12, -14, 22, 4, 0, 15, -19, 9 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = -22.0
+margin_top = -31.0
+margin_right = 18.0
+margin_bottom = -17.0
+text = "100"
+align = 1
+valign = 1
+script = ExtResource( 4 )
+_playerNodePath = NodePath("..")

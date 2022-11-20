@@ -1,4 +1,5 @@
 ﻿
+using System;
 using Godot;
 
 public class Enemy: Area2D, DamageableByPlayer {
@@ -7,11 +8,8 @@ public class Enemy: Area2D, DamageableByPlayer {
     [Export] private PackedScene _explosionScene;
     [Export] private PackedScene _hitScene;
     
-    private PlayRandom _audioDirector;
-
     public override void _Ready() {
         _health = 10;
-        _audioDirector = GetNode<PlayRandom>("AudioStreamPlayer");
     }
 
     public void Damage(int amount) {
@@ -28,14 +26,17 @@ public class Enemy: Area2D, DamageableByPlayer {
     }
 
     private void SpawnExplosion() {
-        Node root = GetNode<Node>("./Node2D");
+        Node root = GetNode<Node>("..");
         var explo = _explosionScene.Instance();
         root.AddChild(explo);
     }
 
     private void SpawnHit() {
-        Node root = GetNode<Node>("./");
         var hit = _hitScene.Instance();
-        root.AddChild(hit);
+        AddChild(hit);
+    }
+
+    public void OnBodyEntered(PhysicsBody2D body) {
+        Console.WriteLine("Hit");
     }
 }

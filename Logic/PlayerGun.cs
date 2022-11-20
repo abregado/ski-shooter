@@ -7,6 +7,7 @@ public class PlayerGun : RayCast2D {
     private Line2D _line;
 
     private float _nextShot;
+    private float _nextLineClear;
     private SkiPlayer _player;
     
     [Export] private PackedScene _shotScene;
@@ -27,23 +28,30 @@ public class PlayerGun : RayCast2D {
     public override void _Process(float delta) {
         Vector2 linePoint = GetCollisionPoint();
 
-        if (linePoint != Vector2.Zero) {
-            _line.SetPointPosition(0,Position);
-            _line.SetPointPosition(1,linePoint - GlobalPosition);
-        }
-        else {
+        if (Time.GetTicksMsec() > _nextLineClear) {
             _line.SetPointPosition(0,Position);
             _line.SetPointPosition(1,Position);
+            _line.Visible = false;
         }
         
-        if (Input.IsActionPressed("player_shoot")) {
+        
+        if (Input.IsActionPressed("player_shoot") && !_player.jetpacking()) {
+            if (!IsColliding()) {
+                return;
+            }
+            
             if (Time.GetTicksMsec() > _nextShot) {
+                
+                _line.SetPointPosition(0,Position);
+                _line.SetPointPosition(1,linePoint - GlobalPosition);
+                _nextLineClear = Time.GetTicksMsec() + 100f;
+                _line.Visible = true;
+            
+                
                 AttemptFire();
             }
         }
-
-        Enabled = Input.IsActionPressed("player_shoot");
-        _line.Visible = Enabled;
+        //Enabled = Input.IsActionPressed("player_shoot");
     }
 
     private void AttemptFire() {
