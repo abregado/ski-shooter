@@ -2,23 +2,32 @@ import math
 
 def generate():
     top = 160
-    bottom = 330
-    base = 500
+    bottom = 550
+    base = 500000
 
-    length = 30000
+    length =  30000 * 10
 
     units_per_segment = 50
 
     points = []
 
+    hill_width = 500
+
     range_size = bottom - top
     for x in range(0,length,units_per_segment):
-        points.append([x,top + ((math.sin(x) + 1)/2) * range_size])
+        y = math.sin(x*math.pi/500)
+        y += math.sin(x*math.pi/1000)
+        y += math.sin(x*math.pi/3000)
+        points.append([x,y])
 
+    ymax = (max([p[1] for p in points]))
+    ymin = (min([p[1] for p in points]))
 
+    y_cur_range = ymax - ymin
 
-    print(max([p[1] for p in points]))
-    print(min([p[1] for p in points]))
+    for p in points:
+        p[1] = top + ((p[1] - ymin) / (ymax - ymin)) * (bottom - top)
+
 
     first = points[0]
     last = points[-1]
