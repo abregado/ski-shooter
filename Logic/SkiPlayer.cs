@@ -19,11 +19,11 @@ public class SkiPlayer : KinematicBody2D, VelocityHolder
     [Export] float hugFloorStrength = 100f;
     [Export] float gravityStrength = 1f;
     [Export] float slidingSpeedGainMultiplier = 1f/5f;
+    [Export] float uphillSpeedChangeMultiplier = 2f;
     [Export] float jetpackUpForce = 0.1f;
     [Export] float jetpackMaxUpForce = 10f;
     [Export] float jetpackDecay = 0.01f;
     [Export] float minimumHorizontalVelocity = 1.0f;
-    [Export] float uphillSpeedDecay = 0.001f;
 
 
 
@@ -41,14 +41,10 @@ public class SkiPlayer : KinematicBody2D, VelocityHolder
         return Input.IsActionPressed("jetpack");
     }
 
-    public bool onTheGround()
-    {
-        return !jetpacking() && feetRaycast.IsColliding();
-    }
 
     public override void _PhysicsProcess(float delta)
     {
-        if (onTheGround())
+        if (feetRaycast.IsColliding())
         {
             float angle = feetRaycast.GetCollisionNormal().Rotated(-90f.ToRadians()).Angle().ToDegrees();
             angle = Mathf.PosMod(angle, 360f);
@@ -59,9 +55,12 @@ public class SkiPlayer : KinematicBody2D, VelocityHolder
             //     0                 .
 
             float magnitude = angle <= 180f ? -(angle / 180f) : (angle-108f) / 180f;
-            // Console.WriteLine(magnitude);
 
-            horizontalVelocity += magnitude * slidingSpeedGainMultiplier;
+            if (magnitude < 0)
+                magnitude *= uphillSpeedChangeMultiplier;
+
+            if (!jetpacking() || magnitude < 0)
+                horizontalVelocity += magnitude * slidingSpeedGainMultiplier;
         }
 
         horizontalVelocity = Mathf.Max(horizontalVelocity, minimumHorizontalVelocity);
@@ -71,45 +70,25 @@ public class SkiPlayer : KinematicBody2D, VelocityHolder
 
         verticalVelocity += jetpackDecay;
 
-        float moved = 0f;
-        float iterations = 0f;
-        while (moved < horizontalVelocity)
+
+        Vector2 old = GlobalPosition;
+
+        int iterations = 0;
+        while (GlobalPosition.x - old.x < horizontalVelocity && iterations < 20)
         {
-            Vector2 old = GlobalPosition;
-            MoveAndCollide(new Vector2(horizontalVelocity, 0));
-            moved += GlobalPosition.x - old.x;
+            Vector2 move = new Vector2();
+            if (feetRaycast.GetCollider() != null)
+                move = feetRaycast.GetCollisionNormal().Rotated(90f.ToRadians()).Normalized();
+            else
+                move = new Vector2(1, 0);
+
+            move *= 0.5f;
+            MoveAndCollide(move);
             iterations++;
         }
-        if (iterations > 1)
-            horizontalVelocity -= uphillSpeedDecay;
 
-        MoveAndCollide(new Vector2(horizontalVelocity, onTheGround() ? hugFloorStrength : verticalVelocity + gravityStrength));
+        MoveAndCollide(new Vector2(0, (feetRaycast.IsColliding() && !jetpacking()) ? hugFloorStrength : verticalVelocity + gravityStrength));
     }
-
-    // public override void _IntegrateForces(Physics2DDirectBodyState bodyState)
-    // {
-    //     bool jetpack = Input.IsActionPressed("jetpack");
-    //     bool ski = !jetpack;
-    //
-    //     this.PhysicsMaterialOverride.Friction = ski ? 0 : 1;
-    //     this.GravityScale = 5;//jetpack ? 0 : 1;
-    //     this.LinearDamp = 0;//jetpack ? 0 : 1;
-    //
-    //     if (jetpack)
-    //     {
-    //         Vector2 currentVelocity = bodyState.LinearVelocity;
-    //
-    //         float jetpackSpeed = 400;
-    //         jetpackSpeed = Mathf.Max(jetpackSpeed, currentVelocity.Length());
-    //         Vector2 jetpackDirection = new Vector2(1,-1).Normalized() * jetpackSpeed;
-    //
-    //         float alpha = 0.05f;
-    //         Vector2 newVelocity = jetpackDirection * alpha + currentVelocity * (1.0f-alpha);
-    //         bodyState.LinearVelocity = newVelocity;
-    //     }
-    //
-    //     _velocity = bodyState.LinearVelocity.Length();
-    // }
 
     public float GetVelocity() {
         return horizontalVelocity;

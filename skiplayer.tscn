@@ -18,7 +18,7 @@ color = Color( 1, 0, 0, 1 )
 [node name="FeetRaycast" type="RayCast2D" parent="."]
 position = Vector2( 11, 23 )
 enabled = true
-cast_to = Vector2( 0, 20 )
+cast_to = Vector2( 0, 28 )
 collide_with_areas = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
