@@ -9,7 +9,7 @@ public class Enemy: Area2D, DamageableByPlayer {
     [Export] private PackedScene _hitScene;
     
     public override void _Ready() {
-        _health = 10;
+        _health = 7;
     }
 
     public void Damage(int amount) {

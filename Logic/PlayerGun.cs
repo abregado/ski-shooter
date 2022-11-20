@@ -9,6 +9,8 @@ public class PlayerGun : RayCast2D {
     private float _nextShot;
     private float _nextLineClear;
     private SkiPlayer _player;
+
+    private int[] _damageValues;
     
     [Export] private PackedScene _shotScene;
     
@@ -18,6 +20,8 @@ public class PlayerGun : RayCast2D {
         _line.AddPoint(Vector2.Zero);
         _line.AddPoint(Vector2.Zero);
         _player = GetNode<SkiPlayer>("..");
+
+        _damageValues = new[] {0, 1, 1, 2, 3, 3, 7, 7, 7, 9, 9};
     }
 
     public override void _PhysicsProcess(float delta) {
@@ -66,8 +70,10 @@ public class PlayerGun : RayCast2D {
     }
 
     private void Fire(Enemy target) {
-        Console.WriteLine("hit!");
-        target.Damage((int) Math.Ceiling(_player.GetVelocity()));
+        int speed = (int) Math.Ceiling(_player.GetVelocity());
+        speed = Math.Max(speed, 0);
+        speed = Math.Min(speed, _damageValues.Length - 1);
+        target.Damage(_damageValues[speed]);
     }
     
     private void SpawnShot() {
