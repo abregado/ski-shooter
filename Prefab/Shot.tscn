@@ -1,0 +1,14 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Logic/AudioStreamPlayer/DeleteAfterPlay.cs" type="Script" id=1]
+[ext_resource path="res://Sound/sci-fi_weapon_plasma_pistol_01.wav" type="AudioStream" id=2]
+[ext_resource path="res://Sound/sci-fi_weapon_plasma_pistol_02.wav" type="AudioStream" id=3]
+[ext_resource path="res://Sound/sci-fi_weapon_plasma_pistol_05.wav" type="AudioStream" id=4]
+[ext_resource path="res://Sound/sci-fi_weapon_plasma_pistol_06.wav" type="AudioStream" id=5]
+[ext_resource path="res://Sound/sci-fi_weapon_plasma_pistol_04.wav" type="AudioStream" id=6]
+[ext_resource path="res://Sound/sci-fi_weapon_plasma_pistol_03.wav" type="AudioStream" id=7]
+
+[node name="Shot" type="AudioStreamPlayer"]
+volume_db = -16.009
+script = ExtResource( 1 )
+_audioResources = [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 7 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 5 ) ]

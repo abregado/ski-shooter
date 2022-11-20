@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://skiplayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Logic/CameraFollowPlayer.cs" type="Script" id=2]
@@ -10,6 +10,9 @@
 [ext_resource path="res://Logic/FollowRayCastCollide.cs" type="Script" id=8]
 [ext_resource path="res://Logic/Enemy.cs" type="Script" id=9]
 [ext_resource path="res://Logic/UIEnemyHealth.cs" type="Script" id=10]
+[ext_resource path="res://Prefab/Hit.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Prefab/Shot.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Prefab/Explosion.tscn" type="PackedScene" id=22]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 29.2746
@@ -26,6 +29,8 @@ enabled = true
 cast_to = Vector2( 0, 0 )
 collide_with_areas = true
 script = ExtResource( 5 )
+_reloadTime = 500.0
+_shotScene = ExtResource( 12 )
 
 [node name="Line2D" type="Line2D" parent="player/Gun"]
 
@@ -62,6 +67,8 @@ _playerNodePath = NodePath("../../player")
 [node name="StaticEnemy" type="Area2D" parent="."]
 position = Vector2( 1169, 122 )
 script = ExtResource( 9 )
+_explosionScene = ExtResource( 22 )
+_hitScene = ExtResource( 11 )
 
 [node name="Polygon2D" type="Polygon2D" parent="StaticEnemy"]
 color = Color( 0.811765, 0.227451, 0.227451, 1 )

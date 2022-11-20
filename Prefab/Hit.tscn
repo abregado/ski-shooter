@@ -1,0 +1,12 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Logic/AudioStreamPlayer/DeleteAfterPlay.cs" type="Script" id=1]
+[ext_resource path="res://Sound/metal_impact_light_thud_02.wav" type="AudioStream" id=2]
+[ext_resource path="res://Sound/metal_impact_light_thud_04.wav" type="AudioStream" id=3]
+[ext_resource path="res://Sound/metal_impact_light_thud_03.wav" type="AudioStream" id=4]
+[ext_resource path="res://Sound/metal_impact_light_thud_01.wav" type="AudioStream" id=5]
+
+[node name="Hit" type="AudioStreamPlayer"]
+volume_db = -10.487
+script = ExtResource( 1 )
+_audioResources = [ ExtResource( 5 ), ExtResource( 2 ), ExtResource( 4 ), ExtResource( 3 ) ]
