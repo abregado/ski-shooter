@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://skiplayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Logic/CameraFollowPlayer.cs" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Logic/FollowRayCastCollide.cs" type="Script" id=8]
 [ext_resource path="res://Prefab/StaticEnemy.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Logic/EnemyController.cs" type="Script" id=10]
+[ext_resource path="res://Logic/UIKillsReadout.cs" type="Script" id=11]
 [ext_resource path="res://Prefab/Shot.tscn" type="PackedScene" id=12]
 
 [sub_resource type="Gradient" id=1]
@@ -70,15 +71,36 @@ script = ExtResource( 2 )
 _playerNodePath = NodePath("../player")
 xPercentOffset = 0.4
 
-[node name="Label" type="Label" parent="Camera2D"]
+[node name="SpeedReadout" type="Label" parent="Camera2D"]
 margin_left = 534.0
 margin_top = -347.0
-margin_right = 626.0
-margin_bottom = -296.0
+margin_right = 628.0
+margin_bottom = -328.0
 text = "XXX"
 align = 2
 valign = 1
 script = ExtResource( 4 )
+_playerNodePath = NodePath("../../player")
+_highestSpeedUI = NodePath("../HighSpeedReadout")
+
+[node name="HighSpeedReadout" type="Label" parent="Camera2D"]
+margin_left = 534.0
+margin_top = -330.0
+margin_right = 628.0
+margin_bottom = -311.0
+text = "XXX"
+align = 2
+valign = 1
+
+[node name="KillsReadout" type="Label" parent="Camera2D"]
+margin_left = 534.0
+margin_top = -295.0
+margin_right = 628.0
+margin_bottom = -244.0
+text = "XXX"
+align = 2
+valign = 1
+script = ExtResource( 11 )
 _playerNodePath = NodePath("../../player")
 
 [node name="Sprite" type="Sprite" parent="."]

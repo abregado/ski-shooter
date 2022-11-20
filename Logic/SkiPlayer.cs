@@ -25,7 +25,7 @@ public class SkiPlayer : KinematicBody2D, VelocityHolder
     [Export] float jetpackDecay = 0.01f;
     [Export] float minimumHorizontalVelocity = 1.0f;
 
-
+    public int kills;
 
     RayCast2D feetRaycast;
     float horizontalVelocity = 0;
@@ -96,6 +96,10 @@ public class SkiPlayer : KinematicBody2D, VelocityHolder
 
     public void DamageVelocity(float percentage) {
         //does nothing for now
+    }
+
+    public int GetKills() {
+        return kills;
     }
 
     public void OnAreaEntered(Area2D area)

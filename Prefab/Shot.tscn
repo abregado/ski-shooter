@@ -9,6 +9,6 @@
 [ext_resource path="res://Sound/sci-fi_weapon_plasma_pistol_03.wav" type="AudioStream" id=7]
 
 [node name="Shot" type="AudioStreamPlayer"]
-volume_db = -16.009
+volume_db = -30.0
 script = ExtResource( 1 )
 _audioResources = [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 7 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 5 ) ]

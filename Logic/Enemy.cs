@@ -22,6 +22,8 @@ public class Enemy: Area2D, DamageableByPlayer {
 
     private void Kill() {
         SpawnExplosion();
+        SkiPlayer player = GetNode<SkiPlayer>("../../player");
+        player.kills++;
         QueueFree();
     }
 
