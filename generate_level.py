@@ -15,9 +15,10 @@ def generate():
 
     range_size = bottom - top
     for x in range(0,length,units_per_segment):
-        y = math.sin(x*math.pi/500)
-        y += math.sin(x*math.pi/1000)
-        y += math.sin(x*math.pi/3000)
+        y = math.sin(x*math.pi/503)
+        y += math.sin(x*math.pi/1087)
+        y += math.sin(x*math.pi/3083) * 0.5
+        y += math.sin(x*math.pi/7727) * 0.25
         points.append([x,y])
 
     ymax = (max([p[1] for p in points]))
